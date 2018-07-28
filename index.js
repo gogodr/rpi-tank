@@ -4,21 +4,20 @@ const CronJob = require('cron').CronJob;
 let dispenseScheduledJob;
 let flotMeterSensor;
 let sensorTickCount = 0;
-let calibrationFactor = 5;
+let calibrationFactor = 1;
 
 async function setup(){    
-    flotMeterSensor = new Gpio(25, 'in', 'falling');
+    flotMeterSensor = new Gpio(20, 'in', 'falling');
     dispenseScheduledJob = new CronJob({
         //cronTime: '00 00 01 * * *',
-        cronTime: '*/3 * * * * *',
+        cronTime: '00 * * * * *',
         onTick: async () => {
             console.log('Start Dispense');
             try {
                 await dispense();
                 console.log('SUCCESS')
             } catch (e) {
-                if(e === 'TICKS_END') {
-                    
+                if(e === 'TICKS_END') {                    
                 }else{
                     console.log('Error dispensing', e);
                 }
@@ -42,11 +41,11 @@ async function dispense() {
                 const currentTime = Date.now();
                 const deltaTime = currentTime - lastTime;
                 const mockReadValue = Math.random() + 5;
-                dispensedAmount += Math.round(mockReadValue * (deltaTime / 1000) * calibrationFactor);
+                dispensedAmount += Math.round(sensorTickCount * (deltaTime / 1000) * calibrationFactor);
                 dispenseTicks++;
                 console.log('Dispensed: ', dispensedAmount);
                 console.log('Delta Time: ', deltaTime);
-                consoe.log('Sensor Ticks: ', sensorTickCount);
+                console.log('Sensor Ticks: ', sensorTickCount);
 
                 if (dispensedAmount >= 600) {
                     // Successful dispense
