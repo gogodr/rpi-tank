@@ -13,7 +13,6 @@ async function setup(){
         edge: Gpio.FALLING_EDGE
       });
     flotMeterSensor.on('interrupt', (level)=>{
-        console.log('interrupt level: ', level)
         sensorTickCount++;
     })
     dispenseScheduledJob = new CronJob({
@@ -56,7 +55,7 @@ async function dispense() {
                 console.log('Delta Time: ', deltaTime);
                 console.log('Sensor Ticks: ', sensorTickCount);
 
-                if (dispensedAmount >= 600) {
+                if (dispensedAmount >= 3000) {
                     // Successful dispense
                     dispenseTask.stop();
                     flotMeterSensor.disableInterrupt()
