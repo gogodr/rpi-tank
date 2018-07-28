@@ -4,12 +4,13 @@ const CronJob = require('cron').CronJob;
 let dispenseScheduledJob;
 let flotMeterSensor;
 let sensorTickCount = 0;
+let calibrationFactor = 5;
 
 async function setup(){    
     flotMeterSensor = new Gpio(25, 'in', 'falling');
     dispenseScheduledJob = new CronJob({
         //cronTime: '00 00 01 * * *',
-        cronTime: '00 * * * * *',
+        cronTime: '*/3 * * * * *',
         onTick: async () => {
             console.log('Start Dispense');
             try {
