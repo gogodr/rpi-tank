@@ -1,4 +1,4 @@
-const Gpio = require('onoff').Gpio;
+const Gpio = require('pigpio').Gpio;
 const CronJob = require('cron').CronJob;
 
 let dispenseScheduledJob;
@@ -7,7 +7,15 @@ let sensorTickCount = 0;
 let calibrationFactor = 1;
 
 async function setup(){    
-    flotMeterSensor = new Gpio(20, 'in', 'falling');
+    flotMeterSensor = new Gpio(20, {
+        mode: Gpio.INPUT,
+        pullUpDown: Gpio.PUD_DOWN,
+        edge: Gpio.FALLING_EDGE
+      });
+    flotMeterSensor.on('interrupt', (level)=>{
+        console.log('interrupt level: ', level)
+        sensorTickCount++;
+    })
     dispenseScheduledJob = new CronJob({
         //cronTime: '00 00 01 * * *',
         cronTime: '00 * * * * *',
@@ -29,12 +37,13 @@ async function setup(){
 
 }
 
+
 async function dispense() {
     return new Promise((res, rej) => {
         let dispensedAmount = 0;
         let dispenseTicks = 0;
         let lastTime = Date.now();
-        flotMeterSensor.watch(watchSensor);
+        flotMeterSensor.enableInterrupt(Gpio.FALLING_EDGE)
         const dispenseTask = new CronJob({
             cronTime: '* * * * * *',
             onTick: () => {
@@ -50,13 +59,13 @@ async function dispense() {
                 if (dispensedAmount >= 600) {
                     // Successful dispense
                     dispenseTask.stop();
-                    flotMeterSensor.unwatch(watchSensor);
+                    flotMeterSensor.disableInterrupt()
                     return res()
                 }
                 if (dispenseTicks >= 30) {
                     // Unsucessful dispense, check valve
                     dispenseTask.stop();
-                    flotMeterSensor.unwatch(watchSensor);
+                    flotMeterSensor.disableInterrupt()
                     return rej('TICKS_END')
                 }
                 lastTime = currentTime;
@@ -66,15 +75,6 @@ async function dispense() {
         });
 
     });
-}
-function watchSensor(err, val){
-    if(err){
-        console.log('ERROR WITH READING')
-        console.log(err);
-    }
-    if(val == 0){
-        sensorTickCount++
-    }
 }
 
 setup();
