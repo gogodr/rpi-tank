@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/gogodr/rpi-tank/issues"
   },
-  "homepage": "https://github.com/gogodr/rpi-tank#readme"
+  "homepage": "https://github.com/gogodr/rpi-tank#readme",
+  "dependencies": {
+    "cron": "^1.3.0",
+    "moment": "^2.22.2",
+    "request": "^2.87.0"
+  }
 }
