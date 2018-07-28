@@ -1,0 +1,19 @@
+{
+  "name": "rpi-tank",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gogodr/rpi-tank.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gogodr/rpi-tank/issues"
+  },
+  "homepage": "https://github.com/gogodr/rpi-tank#readme"
+}
