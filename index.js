@@ -6,14 +6,14 @@ let flowMeterSensorGpio, solenoidRelayGpio, airGateServoGpio;
 let sensorTickCount = 0;
 let calibrationFactor = 1;
 //servo 11
-//gate 14
+//gate 23
 async function setup() {
     flowMeterSensorGpio = new Gpio(20, {
         mode: Gpio.INPUT,
         pullUpDown: Gpio.PUD_DOWN,
         edge: Gpio.FALLING_EDGE
     });
-    solenoidRelayGpio = new Gpio(14, { mode: Gpio.OUTPUT });
+    solenoidRelayGpio = new Gpio(18, { mode: Gpio.OUTPUT });
     airGateServoGpio = new Gpio(11, { mode: Gpio.OUTPUT });
     closeAirGate();
     closeSolenoid();
@@ -43,17 +43,21 @@ async function setup() {
 
 }
 function openSolenoid(){
-    solenoidRelayGpio.digitalWrite(1)
+    console.log('open solenoid');
+    solenoidRelayGpio.pwmWrite(255);
 }
 function closeSolenoid(){
-    solenoidRelayGpio.digitalWrite(0)
+    console.log('close solenoid')
+    solenoidRelayGpio.pwmWrite(0);
 }
 
 function openAirGate(){
-    airGateServoGpio.servoWrite(10000);
+    console.log('servo to 1000')
+    airGateServoGpio.servoWrite(1000);
 }
 function closeAirGate(){
-    airGateServoGpio.servoWrite(0);
+    console.log('servo to 0')
+    airGateServoGpio.servoWrite(2000);
 }
 
 async function dispense() {
