@@ -4,7 +4,7 @@ const CronJob = require('cron').CronJob;
 class TankInterface {
     calibrationFactor = 4;
     dispensing = false;
-    lastDispenseTime;
+    lastDispenseTime = 0;
     toDispense = 3000;
     schedule = '00 00 01 * * *';
     constructor(options) {
@@ -45,6 +45,17 @@ class TankInterface {
     }
     _closeAirGate() {
         this.airGateServoGpio.servoWrite(2000);
+    }
+
+    updateSettings(options) {
+        if (options) {
+            if (options.toDispense) {
+                this.toDispense = options.toDispense;
+            }
+            if (options.schedule) {
+                this.schedule = options.schedule;
+            }
+        }
     }
 
     async dispense() {

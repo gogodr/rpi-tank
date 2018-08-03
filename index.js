@@ -19,6 +19,7 @@ async function getTankSettings() {
 async function dispense() {
     try {
         await tank.dispense();
+        await tranktrackApi.sendReport('SUCCESSFUL_DISPENSE');
     } catch (e) {
         await tranktrackApi.sendReport(e);
     }
@@ -39,7 +40,12 @@ async function setup() {
     dispenseScheduledJob = new CronJob({
         cronTime: tank.schedule,
         onTick: async () => {
-            await dispense();
+            const currentTime = Date.now()
+            if (currentTime - tank.lastDispenseTime > 84600000) { // 23.5 hours
+                await dispense();
+            } else {
+                console.log(`OPERATION ERROR: Too soon to dispense, last dispense was ${moment().from(tank.lastDispenseTime)}`);
+            }
         },
         start: true,
         timeZone: 'America/Lima'
@@ -69,14 +75,18 @@ async function setup() {
                         await tanktrackApi.acknowledgeWork();
                         break;
                     case 'STOP':
-                        console.log('STOP OPERATION');
-                        dispenseScheduledJob.stop();
-                        await tanktrackApi.acknowledgeWork();
+                        if (dispenseScheduledJob.running) {
+                            console.log('STOP OPERATION');
+                            dispenseScheduledJob.stop();
+                            await tanktrackApi.acknowledgeWork();
+                        }
                         break;
                     case 'START':
-                        console.log('START OPERATION');
-                        dispenseScheduledJob.start();
-                        await tanktrackApi.acknowledgeWork();
+                        if (!dispenseScheduledJob.running) {
+                            console.log('START OPERATION');
+                            dispenseScheduledJob.start();
+                            await tanktrackApi.acknowledgeWork();
+                        }
                         break;
                     default:
                         console.log('getWorkJob:', work);
