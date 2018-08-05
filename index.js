@@ -1,5 +1,6 @@
 const Gpio = require('pigpio').Gpio;
 const CronJob = require('cron').CronJob;
+const config = require('config');
 
 const TankInterface = require('./interfaces/tank');
 const TanktrackApi = require('./interfaces/tanktrak_api');
