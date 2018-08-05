@@ -62,6 +62,15 @@ async function setup() {
                         if (!dispenseScheduledJob.running) {
                             console.log('OPERATION NOT RUNING, RESUMING OPERATION');
                             dispenseScheduledJob.start();
+                            await tranktrackApi.sendReport('OPERATION_RESUMED');
+                        }
+                        break;
+                    case 'OPERATION_STOPPED':
+                        console.log('OPERATION HALTED');
+                        if (dispenseScheduledJob.running) {
+                            console.log('OPERATION RUNING, STOPPING OPERATION');
+                            dispenseScheduledJob.stop();
+                            await tranktrackApi.sendReport('OPERATION_STOPPED');
                         }
                         break;
                     case 'OVERRIDE':
