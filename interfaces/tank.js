@@ -51,11 +51,14 @@ class TankInterface {
 
     updateSettings(options) {
         if (options) {
-            if (options.toDispense) {
-                this.toDispense = options.toDispense;
+            if (options.dispense_amount) {
+                this.toDispense = options.dispense_amount;
             }
             if (options.schedule) {
                 this.schedule = options.schedule;
+            }
+            if (options.last_dispense){
+                this.lastDispenseTime = new Date(options.last_dispense)
             }
         }
     }

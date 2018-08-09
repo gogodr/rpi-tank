@@ -25,6 +25,14 @@ async function dispense() {
         await tanktrackApi.sendReport(e);
     }
 }
+async function safeDispense() {
+    const currentTime = Date.now()
+    if (currentTime - tank.lastDispenseTime > 84600000) { // 23.5 hours
+        await dispense();
+    } else {
+        console.log(`OPERATION ERROR: Too soon to dispense, last dispense was ${moment().from(tank.lastDispenseTime)}`);
+    }
+}
 
 async function setup() {
     schedule = config.get('tankSettings.schedule');
@@ -37,17 +45,16 @@ async function setup() {
         schedule: config.get('tankSettings.schedule')
     });
     tankSettings = await tanktrackApi.getTankSettings();
-    console.log('Tank Synced', tankSettings);
+    console.log('Tank Synced', JSON.stringify(tankSettings, null, 4));
+    
+    if (tank.lastDispenseTime) {
+        await safeDispense();
+    }
 
     dispenseScheduledJob = new CronJob({
         cronTime: tank.schedule,
         onTick: async () => {
-            const currentTime = Date.now()
-            if (currentTime - tank.lastDispenseTime > 84600000) { // 23.5 hours
-                await dispense();
-            } else {
-                console.log(`OPERATION ERROR: Too soon to dispense, last dispense was ${moment().from(tank.lastDispenseTime)}`);
-            }
+            await safeDispense();
         },
         start: true,
         timeZone: 'America/Lima'
