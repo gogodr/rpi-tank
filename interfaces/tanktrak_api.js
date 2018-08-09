@@ -13,7 +13,7 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
-                return res(response);
+                return res(JSON.parse(body));
             })
         });
     }
@@ -26,7 +26,7 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
-                return res(response);
+                return res(JSON.parse(body));
             })
         });
     }
@@ -39,7 +39,7 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
-                return res(response);
+                return res(JSON.parse(body));
             })
         });
     }
@@ -53,7 +53,7 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
-                return res(response);
+                return res(JSON.parse(body));
             })
         });
     }
