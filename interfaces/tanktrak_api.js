@@ -13,9 +13,7 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
-                console.log('body', typeof body);
-                console.log('response', typeof response);
-                return res(body);
+                return res(response);
             })
         });
     }
@@ -28,7 +26,7 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
-                return res(body);
+                return res(response);
             })
         });
     }
@@ -41,7 +39,7 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
-                return res(body);
+                return res(response);
             })
         });
     }
@@ -55,7 +53,7 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
-                return res(body);
+                return res(response);
             })
         });
     }
