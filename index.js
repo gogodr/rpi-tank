@@ -12,7 +12,7 @@ let schedule;
 
 
 async function getTankSettings() {
-    tankSettings = await tranktrackApi.getTankSettings();
+    tankSettings = await tanktrackApi.getTankSettings();
     tank.updateSettings(tankSettings);
     dispenseScheduledJob.setTime(tank.schedule);
 }
@@ -20,9 +20,9 @@ async function getTankSettings() {
 async function dispense() {
     try {
         await tank.dispense();
-        await tranktrackApi.sendReport('SUCCESSFUL_DISPENSE');
+        await tanktrackApi.sendReport('SUCCESSFUL_DISPENSE');
     } catch (e) {
-        await tranktrackApi.sendReport(e);
+        await tanktrackApi.sendReport(e);
     }
 }
 
@@ -36,7 +36,7 @@ async function setup() {
         toDispense: config.get('tankSettings.toDispense'),
         schedule: config.get('tankSettings.schedule')
     });
-    tankSettings = await tranktrackApi.getTankSettings();
+    tankSettings = await tanktrackApi.getTankSettings();
     print('Tank Synced', tankSettings);
 
     dispenseScheduledJob = new CronJob({
@@ -57,14 +57,14 @@ async function setup() {
         cronTime: '00 */5 * * * *',
         onTick: async () => {
             try {
-                work = await tranktrackApi.getWork();
+                work = await tanktrackApi.getWork();
                 switch (work) {
                     case 'OPERATION':
                         console.log('CONTINUE OPERATION');
                         if (!dispenseScheduledJob.running) {
                             console.log('OPERATION NOT RUNING, RESUMING OPERATION');
                             dispenseScheduledJob.start();
-                            await tranktrackApi.sendReport('OPERATION_RESUMED');
+                            await tanktrackApi.sendReport('OPERATION_RESUMED');
                         }
                         break;
                     case 'OPERATION_STOPPED':
@@ -72,7 +72,7 @@ async function setup() {
                         if (dispenseScheduledJob.running) {
                             console.log('OPERATION RUNING, STOPPING OPERATION');
                             dispenseScheduledJob.stop();
-                            await tranktrackApi.sendReport('OPERATION_STOPPED');
+                            await tanktrackApi.sendReport('OPERATION_STOPPED');
                         }
                         break;
                     case 'OVERRIDE':
