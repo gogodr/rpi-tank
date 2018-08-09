@@ -63,7 +63,6 @@ async function setup() {
 
     await getTankSettings();
 
-    console.log('tank.lastDispenseTime', tank.lastDispenseTime);
     if (tank.lastDispenseTime) {
         await safeDispense();
     }
