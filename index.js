@@ -1,5 +1,6 @@
 const Gpio = require('pigpio').Gpio;
 const CronJob = require('cron').CronJob;
+const CronTime = require('cron').CronTime;
 const config = require('config');
 
 const TankInterface = require('./interfaces/tank');
@@ -15,7 +16,7 @@ async function getTankSettings() {
     tankSettings = await tanktrackApi.getTankSettings();
     console.log('Tank Synced', JSON.stringify(tankSettings, null, 4));
     tank.updateSettings(tankSettings);
-    dispenseScheduledJob.setTime(tank.schedule);
+    dispenseScheduledJob.setTime(new CronTime(tank.schedule));
 }
 
 async function dispense() {
