@@ -1,7 +1,5 @@
 const request = require('request');
 class TanktrackApi {
-    domain;
-    tankId;
     constructor(options) {
         this.domain = options.domain;
         this.tankId = options.tankId;

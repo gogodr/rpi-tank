@@ -37,6 +37,7 @@ async function setup() {
         schedule: config.get('tankSettings.schedule')
     });
     tankSettings = await tranktrackApi.getTankSettings();
+    print('Tank Synced', tankSettings);
 
     dispenseScheduledJob = new CronJob({
         cronTime: tank.schedule,

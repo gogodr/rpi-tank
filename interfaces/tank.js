@@ -2,12 +2,14 @@ const Gpio = require('pigpio').Gpio;
 const CronJob = require('cron').CronJob;
 
 class TankInterface {
-    calibrationFactor = 4;
-    dispensing = false;
-    lastDispenseTime = 0;
-    toDispense = 3000;
-    schedule = '00 00 01 * * *';
     constructor(options) {
+        //Default Values
+        this.calibrationFactor = 4;
+        this.dispensing = false;
+        this.lastDispenseTime = 0;
+        this.toDispense = 3000;
+        this.schedule = '00 00 01 * * *';
+
         this.flowMeterSensorGpio = new Gpio(20, {
             mode: Gpio.INPUT,
             pullUpDown: Gpio.PUD_DOWN,
