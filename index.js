@@ -19,7 +19,7 @@ async function getTankSettings() {
 }
 
 async function dispense() {
-    try {        
+    try {
         console.log('DISPENSING')
         await tank.dispense();
         await tanktrackApi.sendReport('SUCCESSFUL_DISPENSE');
@@ -47,12 +47,6 @@ async function setup() {
         toDispense: config.get('tankSettings.toDispense'),
         schedule: config.get('tankSettings.schedule')
     });
-    
-    getTankSettings();
-
-    if (tank.lastDispenseTime) {
-        await safeDispense();
-    }
 
     dispenseScheduledJob = new CronJob({
         cronTime: tank.schedule,
@@ -62,6 +56,12 @@ async function setup() {
         start: true,
         timeZone: 'America/Lima'
     });
+
+    getTankSettings();
+
+    if (tank.lastDispenseTime) {
+        await safeDispense();
+    }
 
     getWorkJob = new CronJob({
         cronTime: '00 */5 * * * *',
