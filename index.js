@@ -57,8 +57,8 @@ async function setup() {
         cronTime: '00 */5 * * * *',
         onTick: async () => {
             try {
-                work = await tanktrackApi.getWork();
-                switch (work) {
+                response = await tanktrackApi.getWork();
+                switch (response.work) {
                     case 'OPERATION':
                         console.log('CONTINUE OPERATION');
                         if (!dispenseScheduledJob.running) {
