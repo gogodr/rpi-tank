@@ -18,7 +18,8 @@ async function getTankSettings() {
 }
 
 async function dispense() {
-    try {
+    try {        
+        console.log('DISPENSING')
         await tank.dispense();
         await tanktrackApi.sendReport('SUCCESSFUL_DISPENSE');
     } catch (e) {
@@ -27,6 +28,7 @@ async function dispense() {
 }
 async function safeDispense() {
     const currentTime = Date.now()
+    console.log('last dispense time', tank.lastDispenseTime)
     if (currentTime - tank.lastDispenseTime > 84600000) { // 23.5 hours
         await dispense();
     } else {
@@ -46,7 +48,7 @@ async function setup() {
     });
     tankSettings = await tanktrackApi.getTankSettings();
     console.log('Tank Synced', JSON.stringify(tankSettings, null, 4));
-    
+
     if (tank.lastDispenseTime) {
         await safeDispense();
     }
