@@ -1,4 +1,4 @@
-const Gpio = require('pigpio').Gpio;
+const moment = require('moment');
 const CronJob = require('cron').CronJob;
 const CronTime = require('cron').CronTime;
 const config = require('config');
