@@ -13,6 +13,7 @@ let schedule;
 
 async function getTankSettings() {
     tankSettings = await tanktrackApi.getTankSettings();
+    console.log('Tank Synced', JSON.stringify(tankSettings, null, 4));
     tank.updateSettings(tankSettings);
     dispenseScheduledJob.setTime(tank.schedule);
 }
@@ -46,8 +47,8 @@ async function setup() {
         toDispense: config.get('tankSettings.toDispense'),
         schedule: config.get('tankSettings.schedule')
     });
-    tankSettings = await tanktrackApi.getTankSettings();
-    console.log('Tank Synced', JSON.stringify(tankSettings, null, 4));
+    
+    getTankSettings();
 
     if (tank.lastDispenseTime) {
         await safeDispense();
