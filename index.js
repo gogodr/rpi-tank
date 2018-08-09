@@ -17,6 +17,9 @@ async function getTankSettings() {
     console.log('Tank Synced', JSON.stringify(tankSettings, null, 4));
     tank.updateSettings(tankSettings);
     dispenseScheduledJob.setTime(new CronTime(tank.schedule));
+    if (tankSettings.active && !dispenseScheduledJob.running) {
+        dispenseScheduledJob.start();
+    }
 }
 
 async function dispense() {
@@ -60,6 +63,7 @@ async function setup() {
 
     getTankSettings();
 
+    console.log('tank.lastDispenseTime', tank.lastDispenseTime);
     if (tank.lastDispenseTime) {
         await safeDispense();
     }

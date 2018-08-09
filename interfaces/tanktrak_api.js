@@ -48,7 +48,8 @@ class TanktrackApi {
             request({
                 method: 'POST',
                 uri: `${this.domain}/tank/${this.tankId}/report`,
-                body: { report }
+                body: { report },
+                json: true,
             }, (err, response, body) => {
                 if (err) {
                     return rej(err);
