@@ -5,7 +5,7 @@ class TanktrackApi {
         this.tankId = options.tankId;
     }
     async getTankSettings() {
-        return Promise((res, rej) => {
+        return new Promise((res, rej) => {
             request({
                 method: 'GET',
                 uri: `${domain}/tank/${tankId}/settings`
@@ -18,7 +18,7 @@ class TanktrackApi {
         });
     }
     async getWork() {
-        return Promise((res, rej) => {
+        return new Promise((res, rej) => {
             request({
                 method: 'GET',
                 uri: `${domain}/tank/${tankId}/work`
@@ -31,7 +31,7 @@ class TanktrackApi {
         });
     }
     async acknowledgeWork() {
-        return Promise((res, rej) => {
+        return new Promise((res, rej) => {
             request({
                 method: 'POST',
                 uri: `${domain}/tank/${tankId}/work`
@@ -44,7 +44,7 @@ class TanktrackApi {
         });
     }
     async sendReport(report) {
-        return Promise((res, rej) => {
+        return new Promise((res, rej) => {
             request({
                 method: 'POST',
                 uri: `${domain}/tank/${tankId}/report`,
