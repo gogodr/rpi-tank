@@ -8,7 +8,7 @@ class TanktrackApi {
         return new Promise((res, rej) => {
             request({
                 method: 'GET',
-                uri: `${domain}/tank/${tankId}/settings`
+                uri: `${this.domain}/tank/${this.tankId}/settings`
             }, (err, response, body) => {
                 if (err) {
                     return rej(err);
@@ -21,7 +21,7 @@ class TanktrackApi {
         return new Promise((res, rej) => {
             request({
                 method: 'GET',
-                uri: `${domain}/tank/${tankId}/work`
+                uri: `${this.domain}/tank/${this.tankId}/work`
             }, (err, response, body) => {
                 if (err) {
                     return rej(err);
@@ -34,7 +34,7 @@ class TanktrackApi {
         return new Promise((res, rej) => {
             request({
                 method: 'POST',
-                uri: `${domain}/tank/${tankId}/work`
+                uri: `${this.domain}/tank/${this.tankId}/work`
             }, (err, response, body) => {
                 if (err) {
                     return rej(err);
@@ -47,7 +47,7 @@ class TanktrackApi {
         return new Promise((res, rej) => {
             request({
                 method: 'POST',
-                uri: `${domain}/tank/${tankId}/report`,
+                uri: `${this.domain}/tank/${this.tankId}/report`,
                 body: { report }
             }, (err, response, body) => {
                 if (err) {
