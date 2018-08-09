@@ -13,6 +13,8 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
+                console.log('body', typeof body);
+                console.log('response', typeof response);
                 return res(body);
             })
         });
