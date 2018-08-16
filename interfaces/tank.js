@@ -4,7 +4,7 @@ const CronJob = require('cron').CronJob;
 class TankInterface {
     constructor(options) {
         //Default Values
-        this.calibrationFactor = 4;
+        this.calibrationFactor = 4.2;
         this.dispensing = false;
         this.lastDispenseTime = 0;
         this.toDispense = 3000;
@@ -37,10 +37,10 @@ class TankInterface {
         });
     }
     _openSolenoid() {
-        this.solenoidRelayGpio.digitalWrite(0);
+        this.solenoidRelayGpio.digitalWrite(1);
     }
     _closeSolenoid() {
-        this.solenoidRelayGpio.digitalWrite(1);
+        this.solenoidRelayGpio.digitalWrite(0);
     }
     _openAirGate() {
         this.airGateServoGpio.servoWrite(1000);
