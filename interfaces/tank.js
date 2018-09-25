@@ -98,7 +98,7 @@ class TankInterface {
                         return res()
                     }
 
-                    if (this.dispensed < 10) {
+                    if (dispensed < 10) {
                         retries++;
                         console.log(`==DISPENSE ERROR: PROBING ${retries}==`);
                     }
