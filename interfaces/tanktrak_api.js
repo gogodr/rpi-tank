@@ -54,7 +54,7 @@ class TanktrackApi {
                 if (err) {
                     return rej(err);
                 }
-                return res(JSON.parse(body));
+                return res();
             })
         });
     }
