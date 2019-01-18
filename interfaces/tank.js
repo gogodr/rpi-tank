@@ -37,10 +37,10 @@ class TankInterface {
         });
     }
     _openSolenoid() {
-        this.solenoidRelayGpio.digitalWrite(1);
+        this.airGateServoGpio.servoWrite(1600);
     }
     _closeSolenoid() {
-        this.solenoidRelayGpio.digitalWrite(0);
+        this.airGateServoGpio.servoWrite(1000);
     }
     _openAirGate() {
         this.airGateServoGpio.servoWrite(1000);
