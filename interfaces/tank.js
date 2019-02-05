@@ -15,11 +15,8 @@ class TankInterface {
             pullUpDown: Gpio.PUD_DOWN,
             edge: Gpio.FALLING_EDGE
         });
-        this.solenoidRelayGpio = new Gpio(18, { mode: Gpio.OUTPUT });
-        this.airGateServoGpio = new Gpio(11, { mode: Gpio.OUTPUT });
-
-        this._closeAirGate();
-        this._closeSolenoid();
+        this.valveServoGpio = new Gpio(10, { mode: Gpio.OUTPUT });
+        this._closeValve();
 
         this._sensorTickCount = 0;
 
@@ -36,17 +33,12 @@ class TankInterface {
             this._sensorTickCount++;
         });
     }
-    _openSolenoid() {
-        this.airGateServoGpio.servoWrite(1600);
+    
+    _openValve() {
+        this.valveServoGpio.servoWrite(1600);
     }
-    _closeSolenoid() {
-        this.airGateServoGpio.servoWrite(1000);
-    }
-    _openAirGate() {
-        this.airGateServoGpio.servoWrite(1000);
-    }
-    _closeAirGate() {
-        this.airGateServoGpio.servoWrite(2000);
+    _closeValve() {
+        this.valveServoGpio.servoWrite(1000);
     }
 
     updateSettings(options) {
@@ -73,8 +65,7 @@ class TankInterface {
             let lastTime = Date.now();
             let retries = 0;
             this.flowMeterSensorGpio.enableInterrupt(Gpio.FALLING_EDGE)
-            this._openAirGate();
-            this._openSolenoid();
+            this._openValve();
             this.dispensing = true;
             console.log('==START DISPENSE==');
             this.dispenseTask = new CronJob({
@@ -90,8 +81,7 @@ class TankInterface {
                         // Successful dispense
                         this.dispenseTask.stop();
                         this.flowMeterSensorGpio.disableInterrupt()
-                        this._closeAirGate();
-                        this._closeSolenoid();
+                        this._closeValve();
                         this.lastDispenseTime = Date.now();
                         this.dispensing = false;
                         console.log('==DISPENSE FINISHED==');
@@ -105,8 +95,7 @@ class TankInterface {
                     if (retries > 8) {
                         this.dispenseTask.stop();
                         this.flowMeterSensorGpio.disableInterrupt()
-                        this._closeAirGate();
-                        this._closeSolenoid();
+                        this._closeValve();
                         this.dispensing = false;
                         console.log('==DISPENSE ABORT: FLUID STOPPED==');
                         return rej('DISPENSE_ERROR_STOPPED')
