@@ -3,6 +3,9 @@
     "tankSettings": {
         "tankId": "TANK_KEY",
         "toDispense": 3000,
-        "schedule": "00 * 01 * * *"
+        "schedule": "00 * 01 * * *",
+        "openValue": 1000,
+        "closedValue": 1900,
+        "safeDispenseTime": 1
     }
 }

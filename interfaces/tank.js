@@ -9,6 +9,9 @@ class TankInterface {
         this.lastDispenseTime = 0;
         this.toDispense = 3000;
         this.schedule = '00 00 01 * * *';
+        this.openValue = 1000;
+        this.closeValue = 1900;
+
 
         this.flowMeterSensorGpio = new Gpio(20, {
             mode: Gpio.INPUT,
@@ -27,6 +30,12 @@ class TankInterface {
             if (options.schedule) {
                 this.schedule = options.schedule;
             }
+            if (options.openValue){
+                this.openValue = options.openValue;
+            }
+            if (options.closeValue){
+                this.closeValue = options.closeValue;
+            }
         }
 
         this.flowMeterSensorGpio.on('interrupt', (level) => {
@@ -35,10 +44,10 @@ class TankInterface {
     }
     
     _openValve() {
-        this.valveServoGpio.servoWrite(1600);
+        this.valveServoGpio.servoWrite(this.openValue);
     }
     _closeValve() {
-        this.valveServoGpio.servoWrite(1000);
+        this.valveServoGpio.servoWrite(this.closeValue);
     }
 
     updateSettings(options) {

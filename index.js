@@ -34,7 +34,7 @@ async function dispense() {
 async function safeDispense() {
     const currentTime = Date.now()
     console.log('last dispense time', tank.lastDispenseTime)
-    if (currentTime - tank.lastDispenseTime > 84600000) { // 23.5 hours
+    if (currentTime - tank.lastDispenseTime > (config.get('safeDispenseTime') * 60 * 60 * 1000)) {
         await dispense();
     } else {
         console.log(`OPERATION ERROR: Too soon to dispense, last dispense was ${moment().from(tank.lastDispenseTime)}`);
