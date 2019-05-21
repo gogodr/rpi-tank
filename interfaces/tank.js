@@ -15,7 +15,7 @@ class TankInterface {
 
         this.flowMeterSensorGpio = new Gpio(20, {
             mode: Gpio.INPUT,
-            pullUpDown: Gpio.PUD_DOWN,
+            pullUpDown: Gpio.PUD_UP,
             edge: Gpio.FALLING_EDGE
         });
         this.valveServoGpio = new Gpio(10, { mode: Gpio.OUTPUT });
